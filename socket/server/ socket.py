@@ -1,14 +1,52 @@
-from flask import Flask, render_template
-from flask_socketio import SocketIO
+# #!/usr/bin/env python
 
-app = Flask(__name__)
-# 设置 host 和 port
-socketio = SocketIO(app, host='0.0.0.0', port=8080)
+# import asyncio
+# import websockets
 
-@socketio.on('message')
-def handle_message(message):
-    print('Received message:', message)
-    socketio.send('Message received: ' + message)
+# class Sockets_Server :
+#     def __init__(self, host, port) :
+#         self.host = host
+#         self.port = port
+    
+#     async def handler(websocket):
+#         while True:
+#             message = await websocket.recv()
+#             print(message)
 
-if __name__ == '__main__':
-    socketio.run(app)
+#     # 创建socket
+#     async def creatSocket(self):
+#         async with websockets.serve(self.handler, self.host, self.port):
+#             await asyncio.Future()  # run forever 
+
+#     def run(self):
+#         try :
+#             print(f'websocket server is alive! {self.host}:{self.port}')
+#             asyncio.run(self.creatSocket())
+#         finally:
+#            print('websocket server has error!')
+
+
+# if __name__ == "__main__":
+#     Sockets_Server('127.0.0.1', 10099).run()
+    
+
+#!/usr/bin/env python
+
+import asyncio
+import websockets
+
+async def hello(websocket):
+    name = await websocket.recv()
+    print(f"<<< {name}")
+
+    greeting = f"Hello {name}!"
+
+    await websocket.send(greeting)
+    print(f">>> {greeting}")
+
+async def main():
+    async with websockets.serve(hello, "127.0.0.1", 10099):
+        await asyncio.Future()  # run forever
+
+if __name__ == "__main__":
+    asyncio.run(main())
