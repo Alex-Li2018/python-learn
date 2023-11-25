@@ -35,7 +35,7 @@ def matchSingleQA(text):
         json.dump(qa_list, file, ensure_ascii=False)
 
 def matchMultiQA(text):
-    pattern = r'\d+ \. (.+?)（\s*(.*)\s*）(.*?)\s*?\n(A、.+?)(B、.+?)(C、.+?)(D、.+?)\n'
+    pattern = r'\d+ \. (.+?)（\s*(.*)\s*）(.*?)\n(A、.+?)\n(B、.+?)\n(C、.+?)\n(D、.+?)\n'
     matchs = re.findall(pattern, text, re.DOTALL)
 
     for match in matchs:
@@ -58,7 +58,7 @@ def matchMultiQA(text):
         json.dump(qa_list, file, ensure_ascii=False)
 
 def matchJudgeQuestion(text):
-    pattern = r'/\d+ \. (.|\s*)+（.*）/'
+    pattern = r'/\d+ \. ((.)*)\s*。\s*（(.*)）\n/'
     matchs = re.findall(pattern, text, re.DOTALL)
 
     print(matchs)
@@ -82,8 +82,10 @@ with open(pdf_path,'rb') as f:
             pdf_content_b += text
         elif page_num <= 195:
             pdf_content_c += text 
+        else:
+            pdf_content_d += text
 
-print('pdf_content', pdf_content_c)
+print('pdf_content', pdf_content_d)
 # matchSingleQA(pdf_content_a + pdf_content_b)
-matchMultiQA(pdf_content_c)
-# matchJudgeQuestion(pdf_content_d)
+# matchMultiQA(pdf_content_c)
+matchJudgeQuestion(pdf_content_d)
